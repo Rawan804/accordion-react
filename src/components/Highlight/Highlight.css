@@ -1,0 +1,12 @@
+/* ============================================================
+   Highlight — search match mark
+   ============================================================ */
+mark {
+  background: var(--mark);
+  color: var(--mark-text);
+  border-radius: 4px;
+  padding: 0.05em 0.25em;
+  font-weight: 600;
+  /* Inherit surrounding font size */
+  font-size: inherit;
+}

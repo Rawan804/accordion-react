@@ -1,0 +1,113 @@
+/* ============================================================
+   Design Tokens — single source of truth for palette & motion
+   ============================================================ */
+:root {
+  /* Surfaces */
+  --bg:           #f7f5fd;
+  --surface:      #ffffff;
+  --surface-alt:  #f0ebff;
+  --surface-raised: #ffffff;
+
+  /* Borders */
+  --border:       #c4b3ed;
+  --border-soft:  #e8e0fa;
+  --border-focus: #7c3aed;
+
+  /* Accent (violet) */
+  --accent:        #7c3aed;
+  --accent-hover:  #6d28d9;
+  --accent-active: #5b21b6;
+  --accent-soft:   #ede9fe;
+  --accent-glow:   0 0 0 3px rgb(124 58 237 / 0.18);
+  --on-accent:     #ffffff;
+
+  /* Text */
+  --text:          #18103a;
+  --text-muted:    #5e4d80;
+  --text-subtle:   #9282b3;
+
+  /* Semantic */
+  --mark:          #ddd5ff;
+  --mark-text:     #3b0da8;
+  --code-bg:       #0f0a1e;
+  --code-border:   #2e1f52;
+  --code-text:     #e9ddff;
+
+  /* Shadows */
+  --shadow-xs:  0 1px 3px rgb(60 20 120 / 0.07);
+  --shadow-sm:  0 2px 8px rgb(60 20 120 / 0.08), 0 1px 2px rgb(60 20 120 / 0.05);
+  --shadow-md:  0 4px 16px rgb(60 20 120 / 0.10), 0 1px 4px rgb(60 20 120 / 0.06);
+  --shadow-lg:  0 8px 32px rgb(60 20 120 / 0.12), 0 2px 8px rgb(60 20 120 / 0.06);
+  /* Legacy alias used by older rules */
+  --shadow:     var(--shadow-sm);
+
+  /* Motion */
+  --ease:        cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-back:   cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-in:     cubic-bezier(0.4, 0, 1, 1);
+  --ease-out:    cubic-bezier(0, 0, 0.2, 1);
+  --dur-fast:    140ms;
+  --dur:         260ms;
+  --dur-slow:    400ms;
+
+  /* Radii */
+  --radius-sm:  8px;
+  --radius-md:  12px;
+  --radius-lg:  16px;
+  --radius-xl:  20px;
+
+  /* App Shell — sidebar & header dimensions */
+  --sidebar-w:        17rem;
+  --mobile-header-h:  56px;
+
+  /* Sidebar surface (slightly distinct from page bg) */
+  --sidebar-bg:         #ffffff;
+  --sidebar-border:     #ece7fb;
+  --sidebar-item-hover: #f3eefe;
+  --sidebar-item-active-bg: #ede9fe;
+  --sidebar-item-active-text: #6d28d9;
+}
+
+/* ---- Dark mode ---- */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:           #080613;
+    --surface:      #100c1f;
+    --surface-alt:  #17102b;
+    --surface-raised: #1c1535;
+
+    --border:       #4a3578;
+    --border-soft:  #271b45;
+    --border-focus: #a78bfa;
+
+    --accent:        #a78bfa;
+    --accent-hover:  #c4b5fd;
+    --accent-active: #ddd6fe;
+    --accent-soft:   #1e1440;
+    --accent-glow:   0 0 0 3px rgb(167 139 250 / 0.20);
+    --on-accent:     #0a061a;
+
+    --text:          #ede9ff;
+    --text-muted:    #b8a8db;
+    --text-subtle:   #7a6a9e;
+
+    --mark:          #3d2680;
+    --mark-text:     #d4c4ff;
+    --code-bg:       #0a0715;
+    --code-border:   #2a1b4a;
+    --code-text:     #e2d9ff;
+
+    --shadow-xs:  0 1px 3px rgb(0 0 0 / 0.3);
+    --shadow-sm:  0 2px 8px rgb(0 0 0 / 0.35), 0 1px 2px rgb(0 0 0 / 0.2);
+    --shadow-md:  0 4px 16px rgb(0 0 0 / 0.4), 0 1px 4px rgb(0 0 0 / 0.25);
+    --shadow-lg:  0 8px 32px rgb(0 0 0 / 0.5), 0 2px 8px rgb(0 0 0 / 0.3);
+    --shadow:     var(--shadow-sm);
+
+    /* Sidebar — dark mode */
+    --sidebar-bg:         #100c1f;
+    --sidebar-border:     #271b45;
+    --sidebar-item-hover: #1e1440;
+    --sidebar-item-active-bg: #2a1d50;
+    --sidebar-item-active-text: #c4b5fd;
+  }
+}

@@ -1,0 +1,137 @@
+/* ============================================================
+   Base — resets, shared utilities, app-shell layout
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  /* Custom scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+body::-webkit-scrollbar { width: 6px; }
+body::-webkit-scrollbar-track { background: transparent; }
+body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+body::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ---- Page shell (font, color, background) ---- */
+.page {
+  min-height: 100dvh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Inter Variable", Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: clamp(0.94rem, 0.88rem + 0.3vw, 1.06rem);
+  line-height: 1.65;
+  font-feature-settings: "cv11", "ss01";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  background-image:
+    radial-gradient(ellipse 60% 40% at 85% 0%,  rgb(124 58 237 / 0.05) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 30% at 15% 100%, rgb(124 58 237 / 0.03) 0%, transparent 70%);
+}
+@media (prefers-color-scheme: dark) {
+  .page {
+    background-image:
+      radial-gradient(ellipse 60% 40% at 85% 0%,  rgb(124 58 237 / 0.10) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 30% at 15% 100%, rgb(124 58 237 / 0.07) 0%, transparent 70%);
+  }
+}
+
+/* ---- Main content area (scrollable, offset by sidebar on desktop) ---- */
+.main-content {
+  /* On mobile sits below the fixed header */
+  padding-top: var(--mobile-header-h);
+}
+@media (min-width: 860px) {
+  .main-content {
+    /* On desktop push right of the fixed sidebar */
+    margin-left: var(--sidebar-w);
+    padding-top: 0;
+  }
+}
+
+/* ---- Content inner wrapper (max-width, padding) ---- */
+.content-inner {
+  max-width: 56rem;
+  margin: 0 auto;
+  padding: clamp(1.75rem, 5vw, 3rem) clamp(1.25rem, 4vw, 2.5rem);
+}
+
+/* ---- Typography ---- */
+h1 {
+  margin: 0 0 1.25rem;
+  font-size: clamp(1.65rem, 1.1rem + 1.8vw, 2.4rem);
+  letter-spacing: -0.03em;
+  line-height: 1.12;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: fadeUp var(--dur-slow) var(--ease) both;
+}
+
+/* ---- Focus ring ---- */
+:where(button, select, input):focus-visible {
+  outline: none;
+  box-shadow: var(--accent-glow), 0 0 0 1px var(--border-focus);
+}
+
+/* ---- Shared accent button ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-height: 44px;
+  padding: 0 1.5rem;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--accent);
+  color: var(--on-accent);
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition:
+    background  var(--dur-fast) var(--ease),
+    transform   var(--dur-fast) var(--ease-back),
+    box-shadow  var(--dur-fast) var(--ease);
+  box-shadow: var(--shadow-sm);
+}
+.btn:hover  { background: var(--accent-hover);  box-shadow: var(--shadow-md); transform: translateY(-1px); }
+.btn:active { background: var(--accent-active); transform: scale(0.97) translateY(0); box-shadow: var(--shadow-xs); }
+
+/* ---- Keyframes ---- */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.96) translateY(8px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0); }
+}
+@keyframes slideInLeft {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(0); }
+}
+@keyframes slideOutLeft {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100%); }
+}
+
+/* ---- Reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    transition-delay:    0s    !important;
+    animation-duration:  0.01ms !important;
+    animation-delay:     0s    !important;
+  }
+}

@@ -1,0 +1,257 @@
+/* ============================================================
+   AppShell — desktop sidebar + mobile drawer layout
+   ============================================================ */
+
+/* ---- Root shell container ---- */
+.shell {
+  min-height: 100dvh;
+}
+
+/* ============================================================
+   DESKTOP SIDEBAR  (visible ≥ 860px)
+   ============================================================ */
+.shell-sidebar {
+  display: none; /* hidden on mobile */
+}
+
+@media (min-width: 860px) {
+  .shell-sidebar {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: var(--sidebar-w);
+    height: 100dvh;
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--sidebar-border);
+    z-index: 200;
+    overflow: hidden;
+  }
+}
+
+/* ============================================================
+   MOBILE HEADER  (visible < 860px)
+   ============================================================ */
+.shell-mobile-header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: var(--mobile-header-h);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0 1rem;
+  background: var(--sidebar-bg);
+  border-bottom: 1px solid var(--sidebar-border);
+  z-index: 300;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+@media (min-width: 860px) {
+  .shell-mobile-header { display: none; }
+}
+
+/* ---- Hamburger button ---- */
+.shell-hamburger {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  font-size: 1.4rem;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  flex: none;
+  transition:
+    background var(--dur-fast) var(--ease),
+    color      var(--dur-fast) var(--ease),
+    transform  var(--dur-fast) var(--ease-back);
+}
+.shell-hamburger:hover {
+  background: var(--sidebar-item-hover);
+  color: var(--accent);
+  transform: scale(1.08);
+}
+.shell-hamburger:active { transform: scale(0.94); }
+
+/* ============================================================
+   LOGO / BRAND  (shared between sidebar, drawer header, mobile header)
+   ============================================================ */
+.shell-sidebar-logo,
+.shell-mobile-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.shell-sidebar-logo {
+  flex: none;
+  padding: 1.25rem 1rem 1rem;
+  border-bottom: 1px solid var(--sidebar-border);
+}
+
+.shell-mobile-logo {
+  flex: 1;
+}
+
+.shell-logo-icon {
+  font-size: 1.4rem !important;
+  color: var(--accent);
+  flex: none;
+}
+
+.shell-logo-text {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ---- Sidebar scrollable body ---- */
+.shell-sidebar-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-soft) transparent;
+  padding: 0.5rem 0 1rem;
+}
+.shell-sidebar-body::-webkit-scrollbar       { width: 4px; }
+.shell-sidebar-body::-webkit-scrollbar-thumb { background: var(--border-soft); border-radius: 99px; }
+
+/* ============================================================
+   BACKDROP  (mobile only)
+   ============================================================ */
+.shell-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgb(0 0 0 / 0.45);
+  z-index: 400;
+  opacity: 0;
+  transition: opacity var(--dur) var(--ease);
+}
+.shell-backdrop--open {
+  display: block;
+  opacity: 1;
+}
+@media (min-width: 860px) {
+  .shell-backdrop { display: none !important; }
+}
+
+/* ============================================================
+   MOBILE DRAWER
+   ============================================================ */
+.shell-drawer {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: min(var(--sidebar-w), 85vw);
+  height: 100dvh;
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--sidebar-border);
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  /* Start off-screen */
+  transform: translateX(-100%);
+  transition: transform var(--dur) var(--ease);
+  box-shadow: var(--shadow-lg);
+  /* Visible but clipped when closed */
+  visibility: hidden;
+}
+.shell-drawer--open {
+  transform: translateX(0);
+  visibility: visible;
+}
+@media (min-width: 860px) {
+  .shell-drawer { display: none !important; }
+}
+
+/* ---- Drawer header ---- */
+.shell-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--mobile-header-h);
+  padding: 0 0.75rem 0 1rem;
+  border-bottom: 1px solid var(--sidebar-border);
+  flex: none;
+}
+
+.shell-drawer-close {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  font-size: 1.2rem;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  flex: none;
+  transition:
+    background var(--dur-fast) var(--ease),
+    color      var(--dur-fast) var(--ease),
+    transform  var(--dur-fast) var(--ease-back);
+}
+.shell-drawer-close:hover  { background: var(--accent-soft); color: var(--accent); transform: scale(1.1) rotate(90deg); }
+.shell-drawer-close:active { transform: scale(0.9); }
+
+/* ---- Drawer scrollable body ---- */
+.shell-drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-soft) transparent;
+  padding: 0.5rem 0 1rem;
+}
+.shell-drawer-body::-webkit-scrollbar       { width: 4px; }
+.shell-drawer-body::-webkit-scrollbar-thumb { background: var(--border-soft); border-radius: 99px; }
+
+/* ============================================================
+   MAIN CONTENT AREA
+   ============================================================ */
+.shell-main {
+  /* On mobile: pushed below the fixed header */
+  padding-top: var(--mobile-header-h);
+  min-height: 100dvh;
+  background: var(--bg);
+  background-image:
+    radial-gradient(ellipse 60% 40% at 85% 0%,  rgb(124 58 237 / 0.05) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 30% at 15% 100%, rgb(124 58 237 / 0.03) 0%, transparent 70%);
+}
+@media (prefers-color-scheme: dark) {
+  .shell-main {
+    background-image:
+      radial-gradient(ellipse 60% 40% at 85% 0%,  rgb(124 58 237 / 0.10) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 30% at 15% 100%, rgb(124 58 237 / 0.07) 0%, transparent 70%);
+  }
+}
+@media (min-width: 860px) {
+  .shell-main {
+    margin-left: var(--sidebar-w);
+    padding-top: 0;
+  }
+}
+
+.shell-main-inner {
+  max-width: 56rem;
+  margin: 0 auto;
+  padding: clamp(1.75rem, 5vw, 3rem) clamp(1.25rem, 4vw, 2.5rem);
+}
+
+/* ---- Transition: respect reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  .shell-drawer,
+  .shell-backdrop {
+    transition: none !important;
+  }
+}

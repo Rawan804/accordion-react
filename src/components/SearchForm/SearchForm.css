@@ -1,0 +1,98 @@
+/* ============================================================
+   SearchForm
+   ============================================================ */
+.search {
+  margin-bottom: 1.5rem;
+  animation: fadeUp var(--dur-slow) var(--ease) 80ms both;
+}
+
+.search label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-subtle);
+}
+
+/* ---- Input row ---- */
+.search-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search input[type="text"] {
+  width: 100%;
+  min-height: 46px;
+  padding: 0 3rem 0 2.75rem;
+  border: 1.5px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.97rem;
+  box-shadow: var(--shadow-xs);
+  transition:
+    border-color var(--dur-fast) var(--ease),
+    box-shadow   var(--dur-fast) var(--ease),
+    background   var(--dur-fast) var(--ease);
+}
+.search input[type="text"]::placeholder { color: var(--text-subtle); }
+.search input[type="text"]:hover {
+  border-color: var(--border);
+  box-shadow: var(--shadow-sm);
+}
+.search input[type="text"]:focus {
+  outline: none;
+  border-color: var(--border-focus);
+  box-shadow: var(--accent-glow), var(--shadow-sm);
+  background: var(--surface-raised);
+}
+
+/* ---- Search icon ---- */
+.search-icon {
+  position: absolute;
+  left: 0.85rem;
+  color: var(--text-subtle);
+  pointer-events: none;
+  transition: color var(--dur-fast) var(--ease);
+  font-size: 1.15rem !important;
+}
+.search-row:has(input:focus) .search-icon { color: var(--accent); }
+
+/* ---- Clear button ---- */
+.icon-btn {
+  position: absolute;
+  right: 0.3rem;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-subtle);
+  cursor: pointer;
+  transition:
+    background var(--dur-fast) var(--ease),
+    color      var(--dur-fast) var(--ease),
+    transform  var(--dur-fast) var(--ease-back);
+}
+.icon-btn:hover {
+  background: var(--accent-soft);
+  color: var(--accent);
+  transform: scale(1.1);
+}
+.icon-btn:active { transform: scale(0.92); }
+
+/* ---- Result count ---- */
+.count {
+  margin: 0.45rem 0 0 0.1rem;
+  font-size: 0.82rem;
+  color: var(--text-subtle);
+  font-variant-numeric: tabular-nums;
+  transition: color var(--dur-fast) var(--ease);
+}
+.count-has-results { color: var(--accent); font-weight: 600; }

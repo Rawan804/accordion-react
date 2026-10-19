@@ -1,0 +1,244 @@
+/* ============================================================
+   CodePreview — live dynamic dark code panel
+   ============================================================ */
+
+.cp-root {
+  margin-top: 2.5rem;
+  border-radius: var(--radius-lg);
+  background: #0d0d0f;
+  border: 1px solid #2a2a35;
+  box-shadow:
+    0 0 0 1px #1a1a22,
+    0 8px 32px rgb(0 0 0 / 0.45),
+    0 2px 8px  rgb(0 0 0 / 0.3);
+  overflow: hidden;
+  animation: fadeUp var(--dur-slow) var(--ease) 120ms both;
+}
+
+/* ---- Header bar ---- */
+.cp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0 0.75rem 0 1rem;
+  height: 44px;
+  background: #16161d;
+  border-bottom: 1px solid #2a2a35;
+}
+
+.cp-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 0;
+  flex: 1;
+}
+
+/* macOS traffic-light dots */
+.cp-header-left::before {
+  content: "";
+  flex: none;
+  width: 42px;
+  height: 10px;
+  background:
+    radial-gradient(circle at 5px   5px, #ff5f57 5px, transparent 5px),
+    radial-gradient(circle at 21px  5px, #febc2e 5px, transparent 5px),
+    radial-gradient(circle at 37px  5px, #28c840 5px, transparent 5px);
+  margin-right: 0.15rem;
+}
+
+.cp-header-icon {
+  font-size: 1rem !important;
+  color: #6e6e8a;
+  flex: none;
+}
+
+.cp-filename {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #c9c9d8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cp-lang-badge {
+  flex: none;
+  padding: 0.15em 0.55em;
+  background: #26263a;
+  border: 1px solid #3a3a52;
+  border-radius: 5px;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #9d8ef5;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Live indicator dot */
+.cp-live-dot {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 6px #4ade80;
+  animation: cpPulse 2s ease-in-out infinite;
+}
+@keyframes cpPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.35; }
+}
+
+/* ---- Header right controls ---- */
+.cp-header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex: none;
+}
+
+/* Copy button */
+.cp-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  height: 30px;
+  padding: 0 0.75rem;
+  border: 1px solid #3a3a52;
+  border-radius: var(--radius-sm);
+  background: #26263a;
+  color: #9d9db8;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background   var(--dur-fast) var(--ease),
+    color        var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease),
+    transform    var(--dur-fast) var(--ease-back);
+}
+.cp-copy-btn:hover  { background: #32324a; color: #c9c9d8; border-color: #5a5a7a; transform: translateY(-1px); }
+.cp-copy-btn:active { transform: scale(0.94); }
+.cp-copy-btn--done  { background: #1a3a28; color: #4ade80; border-color: #2a5a3a; }
+.cp-copy-icon { font-size: 0.85rem !important; }
+
+/* Expand / collapse toggle */
+.cp-toggle-btn {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #3a3a52;
+  border-radius: var(--radius-sm);
+  background: #26263a;
+  color: #9d9db8;
+  cursor: pointer;
+  transition:
+    background   var(--dur-fast) var(--ease),
+    color        var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease);
+}
+.cp-toggle-btn:hover { background: #32324a; color: #c9c9d8; border-color: #5a5a7a; }
+
+.cp-toggle-icon {
+  font-size: 1.1rem !important;
+  transition: transform var(--dur) var(--ease);
+}
+
+/* ---- Collapse / expand body (grid-rows trick) ---- */
+.cp-body-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--dur) var(--ease);
+}
+.cp-body-wrap--open {
+  grid-template-rows: 1fr;
+}
+
+/* ---- Scrollable code area ---- */
+.cp-body {
+  overflow: hidden; /* clips during animation */
+  overflow-x: auto;
+  min-height: 0;    /* required for grid-rows collapse */
+  scrollbar-width: thin;
+  scrollbar-color: #2a2a42 transparent;
+}
+.cp-body::-webkit-scrollbar        { height: 5px; }
+.cp-body::-webkit-scrollbar-track  { background: transparent; }
+.cp-body::-webkit-scrollbar-thumb  { background: #2a2a42; border-radius: 99px; }
+
+/* ---- <pre> ---- */
+.cp-pre {
+  margin: 0;
+  padding: 1.1rem 0;
+  background: transparent;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.83rem;
+  line-height: 1.75;
+  color: #c9d1d9;
+  outline: none;
+  min-width: max-content;
+}
+.cp-pre:focus-visible { box-shadow: inset 0 0 0 2px var(--accent); }
+
+/* ---- Line table ---- */
+.cp-table { border-collapse: collapse; width: 100%; }
+
+.cp-line:hover .cp-ln,
+.cp-line:hover .cp-code { background: rgb(255 255 255 / 0.03); }
+
+.cp-ln {
+  width: 3rem;
+  min-width: 3rem;
+  padding: 0 1rem 0 1.25rem;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.75rem;
+  color: #3d3d55;
+  user-select: none;
+  vertical-align: top;
+  border-right: 1px solid #1e1e2a;
+}
+
+.cp-code {
+  padding: 0 1.5rem 0 1rem;
+  white-space: pre;
+  vertical-align: top;
+}
+
+.cp-empty-line { display: block; }
+
+/* ============================================================
+   Syntax colours — GitHub Dark-inspired
+   ============================================================ */
+.tok-keyword   { color: #ff7b72; }   /* import / from / export */
+.tok-component { color: #79c0ff; }   /* component names        */
+.tok-prop      { color: #ffa657; }   /* JSX prop names         */
+.tok-string    { color: #a5d6ff; }   /* "value"                */
+.tok-bool      { color: #79c0ff; }   /* true / false           */
+.tok-number    { color: #79c0ff; }   /* numeric literals       */
+.tok-fn        { color: #d2a8ff; }   /* function names         */
+.tok-comment   { color: #8b949e; font-style: italic; }
+.tok-punct     { color: #c9d1d9; }   /* braces, semicolons     */
+/* plain — inherits #c9d1d9 */
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 540px) {
+  .cp-pre    { font-size: 0.76rem; }
+  .cp-ln     { width: 2.25rem; min-width: 2.25rem; padding: 0 0.5rem 0 0.75rem; }
+  .cp-code   { padding: 0 0.75rem 0 0.6rem; }
+  .cp-header { padding: 0 0.5rem 0 0.75rem; }
+  .cp-filename { display: none; }
+}
+
+/* Respect reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .cp-live-dot { animation: none; }
+}
