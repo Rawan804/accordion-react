@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState } from "react";
 import { FAQS } from "./data/faqs";
 import { DEFAULT_OPTIONS } from "./constants/options";
 import { useAccordionState } from "./hooks/useAccordionState";
+import { useTheme } from "./hooks/useTheme";
 import AppShell from "./components/AppShell";
 import Accordion from "./components/Accordion";
 import OptionsPanel from "./components/OptionsPanel";
@@ -13,6 +14,7 @@ export default function App() {
   const [options, setOptions]   = useState(DEFAULT_OPTIONS);
   const [query, setQuery]       = useState("");
   const [drawerOpen, setDrawer] = useState(false);
+  const { isDark, toggleTheme } = useTheme();
 
   const { openIds, toggle, closeAll, keepFirstOpen } = useAccordionState(["q1"], options.multiple);
 
@@ -53,6 +55,8 @@ export default function App() {
         drawerOpen={drawerOpen}
         onDrawerOpen={openDrawer}
         onDrawerClose={closeDrawer}
+        isDark={isDark}
+        onToggleTheme={toggleTheme}
       >
         <h1>Help center</h1>
         <SearchForm query={query} onChange={setQuery} count={visible.length} />

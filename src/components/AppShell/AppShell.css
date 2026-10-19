@@ -50,6 +50,12 @@
   .shell-mobile-header { display: none; }
 }
 
+/* ---- Mobile header: hamburger left, theme toggle right ---- */
+.shell-mobile-header {
+  justify-content: space-between;
+  gap: 0;
+}
+
 /* ---- Hamburger button ---- */
 .shell-hamburger {
   display: grid;
@@ -76,27 +82,19 @@
 .shell-hamburger:active { transform: scale(0.94); }
 
 /* ============================================================
-   LOGO / BRAND  (shared between sidebar, drawer header, mobile header)
+   LOGO / BRAND  (sidebar header + drawer header)
    ============================================================ */
-.shell-sidebar-logo,
-.shell-mobile-logo {
+.shell-sidebar-logo {
   display: flex;
   align-items: center;
   gap: 0.6rem;
-}
-
-.shell-sidebar-logo {
   flex: none;
   padding: 1.25rem 1rem 1rem;
   border-bottom: 1px solid var(--sidebar-border);
-}
-
-.shell-mobile-logo {
-  flex: 1;
+  justify-content: space-between;
 }
 
 .shell-logo-icon {
-  font-size: 1.4rem !important;
   color: var(--accent);
   flex: none;
 }
@@ -228,12 +226,10 @@
     radial-gradient(ellipse 60% 40% at 85% 0%,  rgb(124 58 237 / 0.05) 0%, transparent 70%),
     radial-gradient(ellipse 40% 30% at 15% 100%, rgb(124 58 237 / 0.03) 0%, transparent 70%);
 }
-@media (prefers-color-scheme: dark) {
-  .shell-main {
-    background-image:
-      radial-gradient(ellipse 60% 40% at 85% 0%,  rgb(124 58 237 / 0.10) 0%, transparent 70%),
-      radial-gradient(ellipse 40% 30% at 15% 100%, rgb(124 58 237 / 0.07) 0%, transparent 70%);
-  }
+[data-theme="dark"] .shell-main {
+  background-image:
+    radial-gradient(ellipse 60% 40% at 85% 0%,  rgb(124 58 237 / 0.10) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 30% at 15% 100%, rgb(124 58 237 / 0.07) 0%, transparent 70%);
 }
 @media (min-width: 860px) {
   .shell-main {
@@ -254,4 +250,44 @@
   .shell-backdrop {
     transition: none !important;
   }
+}
+
+/* ============================================================
+   THEME TOGGLE — icon-only button, sits in the logo bar
+   ============================================================ */
+
+/* Push toggle to the far right of the logo bar */
+.shell-sidebar-logo {
+  justify-content: space-between;
+}
+
+.shell-theme-toggle {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  flex: none;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition:
+    background   var(--dur-fast) var(--ease),
+    color        var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease),
+    transform    var(--dur-fast) var(--ease-back);
+}
+.shell-theme-toggle:hover {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-color: var(--accent);
+  transform: scale(1.1);
+}
+.shell-theme-toggle:active { transform: scale(0.92); }
+
+.shell-theme-toggle-icon {
+  font-size: 1.05rem !important;
+  display: block;
+  transition: transform var(--dur) var(--ease);
 }
